@@ -15,7 +15,6 @@ app.use((req,res,next)=>{
     next();
 });
 
-
 //2 Route Handlers
 const getAllTours=(req,res)=>{
     console.log(req.requestTime)
@@ -99,16 +98,14 @@ const deleteTour=(req,res)=>{
 
 const tours=JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
-
-
 // app.get('/api/v1/tours',getAllTours);
 // app.get('/api/v1/tours/:id',getTour);
 // app.post('/api/v1/tours',createNewTour);
 // app.patch('/api/v1/tours/:id',updateTour);
 // app.delete('/api/v1/tours/:id',deleteTour);
+//3 Route
 app.route('/api/v1/tours').get(getAllTours).post(createNewTour);
 app.route('/api/v1/tours/:id').get(getTour).patch(updateTour).delete(deleteTour);
-
 
 //Server listen
 const port=3000;
