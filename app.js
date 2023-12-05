@@ -36,6 +36,22 @@ const getTour=(req,res)=>{
         }
     });
 };
+const createNewTour=(req,res)=>{
+    const newID=tours[tours.length-1].id+1;
+    const newTour=Object.assign({
+        id:newID},
+        req.body);
+    tours.push(newTour);
+    fs.writeFile(`${__dirname}/dev-data/data/tours-simple.json`,JSON.stringify(tours),err=>{
+        res.status(201).json({
+            status: 'success',
+            results:tours.length,
+            data:{
+                tour:newTour
+            }
+        });
+    });
+};
 
 
 // app.get('/api/v1/tours',getAllTours);
