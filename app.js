@@ -15,6 +15,27 @@ const getAllTours=(req,res)=>{
         
     });
 };
+const getTour=(req,res)=>{
+    const id=+req.params.id;
+    const tour=tours.find(el=>el.id===id);
+    if(id>tours.length){
+        return res.status(404).json({
+            status:'fail',
+            message:`Tour with ID ${id} not found.`
+        });
+    }
+
+    res.status(200).json({
+        status: 'success',
+        // results:tours.length,
+        // data:{
+        //     tours
+        // }
+        data:{
+            tour
+        }
+    });
+};
 
 
 // app.get('/api/v1/tours',getAllTours);
