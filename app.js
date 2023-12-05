@@ -52,6 +52,39 @@ const createNewTour=(req,res)=>{
         });
     });
 };
+const updateTour=(req,res)=>{
+    const id=+req.params.id;
+    if(id>tours.length){
+        return res.status(404).json({
+            status:'fail',
+            message:`Tour with ID ${id} not found.`
+        });
+    }
+    res.status(200).json({
+        status:'success',
+        data:{
+            tour:'Updated tour'
+        }
+    });
+};
+const deleteTour=(req,res)=>{
+    const id=+req.params.id;
+    if(id>tours.length){
+        return res.status(404).json({
+            status:'fail',
+            message:`Tour with ID ${id} not found.`
+        });
+    }
+    res.status(200).json({
+        status:'success',
+        data:{
+            tour:'Updated tour'
+        }
+    });
+};
+
+const tours=JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
+
 
 
 // app.get('/api/v1/tours',getAllTours);
