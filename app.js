@@ -2,6 +2,20 @@ const fs=require('fs');
 const express =require('express');
 
 
+//2 Route Handlers
+const getAllTours=(req,res)=>{
+    console.log(req.requestTime)
+    res.status(200).json({
+        status: 'success',
+        requestedAt:req.requestTime,
+        results:tours.length,
+        data:{
+            tours
+        }
+        
+    });
+};
+
 
 // app.get('/api/v1/tours',getAllTours);
 // app.get('/api/v1/tours/:id',getTour);
