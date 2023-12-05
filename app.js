@@ -1,5 +1,19 @@
 const fs=require('fs');
 const express =require('express');
+const morgan=require('morgan');
+
+//1 Middleware
+const app = express();
+app.use(morgan('dev'));
+app.use(express.json());
+app.use((req,res,next)=>{
+    console.log('Hellp from the Middleware');
+    next();
+});
+app.use((req,res,next)=>{
+    req.requestTime=new Date().toISOString();
+    next();
+});
 
 
 //2 Route Handlers
