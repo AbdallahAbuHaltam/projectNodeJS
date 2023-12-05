@@ -92,6 +92,9 @@ const tours=JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.
 // app.post('/api/v1/tours',createNewTour);
 // app.patch('/api/v1/tours/:id',updateTour);
 // app.delete('/api/v1/tours/:id',deleteTour);
+app.route('/api/v1/tours').get(getAllTours).post(createNewTour);
+app.route('/api/v1/tours/:id').get(getTour).patch(updateTour).delete(deleteTour);
+
 
 //Server listen
 const port=3000;
