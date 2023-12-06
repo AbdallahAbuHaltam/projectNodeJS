@@ -96,7 +96,89 @@ const deleteTour=(req,res)=>{
     });
 };
 
+const getAllUsers=(req,res)=>{
+    console.log(req.requestTime)
+    res.status(200).json({
+        status: 'success',
+        requestedAt:req.requestTime,
+        results:tours.length,
+        data:{
+            users
+        }
+        
+    });
+}
+const createUser=(req,res)=>{
+    const newID=users[users.length-1].id+1;
+    const newUser=Object.assign({
+        id:newID},
+        req.body);
+    users.push(newUser);
+    fs.writeFile(`${__dirname}/dev-data/data/users.json`,JSON.stringify(users),err=>{
+        res.status(201).json({
+            status: 'success',
+            results:users.length,
+            data:{
+                user:newUser
+            }
+        });
+    });
+};
+const getUser=(req,res)=>{
+    const id=+req.params.id;
+    const user=users.find(el=>el.id===id);
+    if(id>users.length){
+        return res.status(404).json({
+            status:'fail',
+            message:`User with ID ${id} not found.`
+        });
+    }
+
+    res.status(200).json({
+        status: 'success',
+        // results:tours.length,
+        // data:{
+        //     tours
+        // }
+        data:{
+            user
+        }
+    });
+};
+const updateUser=(req,res)=>{
+    const id=+req.params.id;
+    if(id>users.length){
+        return res.status(404).json({
+            status:'fail',
+            message:`User with ID ${id} not found.`
+        });
+    }
+    res.status(200).json({
+        status:'success',
+        data:{
+            user:'Updated user'
+        }
+    });
+};
+const deleteUser=(req,res)=>{
+    const id=+req.params.id;
+    if(id>users.length){
+        return res.status(404).json({
+            status:'fail',
+            message:`User with ID ${id} not found.`
+        });
+    }
+    res.status(200).json({
+        status:'success',
+        data:{
+            user:'Deleted user'
+        }
+    });
+};
+
 const tours=JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
+const users=JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/users.json`));
+
 
 // app.get('/api/v1/tours',getAllTours);
 // app.get('/api/v1/tours/:id',getTour);
@@ -106,6 +188,10 @@ const tours=JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.
 //3 Route
 app.route('/api/v1/tours').get(getAllTours).post(createNewTour);
 app.route('/api/v1/tours/:id').get(getTour).patch(updateTour).delete(deleteTour);
+
+app.route('/api/v1/users').get(getAllUsers).post(createUser);
+app.route('/api/v1/users/:id').get(getUser).patch(updateUser).delete(deleteUser);
+
 
 //Server listen
 const port=3000;
